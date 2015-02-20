@@ -31,7 +31,8 @@
                     ;;rspec-mode
                     ;;rubocop
                     ;;smex
-                    ;;sml-mode
+                    smart-mode-line
+                    smart-mode-line-powerline-theme
                     ;;tidy
                     ;;twittering-mode
                     ;;window-number

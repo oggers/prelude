@@ -45,14 +45,33 @@
 ;;(global-set-key (kbd "<escape>") 'god-local-mode)
 
 ; Cursor style to indicate mode-line
-(defun my-update-cursor ()
+(defun ogg/update-cursor ()
   "Update cursor."
   (setq cursor-type (if (or god-local-mode buffer-read-only)
                         'box
                       'bar)))
-(add-hook 'god-mode-enabled-hook 'my-update-cursor)
-(add-hook 'god-mode-disabled-hook 'my-update-cursor)
+(add-hook 'god-mode-enabled-hook 'ogg/update-cursor)
+(add-hook 'god-mode-disabled-hook 'ogg/update-cursor)
+(set-default 'cursor-type 'bar)
 
+;; Change modeline color
+(defvar ogg/mode-line-background)
+(defvar ogg/mode-line-inactive-background)
+(defun ogg/god-mode-update-cursor ()
+  "Change modeline depending on god-mode is enabled."
+  (let ((limited-colors-p (> 257 (length (defined-colors)))))
+    (cond (god-local-mode
+           (progn
+             (unless (boundp 'ogg/mode-line-background)
+               (progn (setq ogg/mode-line-background (face-background 'mode-line))
+                      (setq ogg/mode-line-inactive-background (face-background 'mode-line-inactive))))
+             (set-face-background 'mode-line (if limited-colors-p "white" "Slateblue4"))
+             (set-face-background 'mode-line-inactive (if limited-colors-p "white" "SlateBlue3"))))
+          (t (progn
+               (set-face-background 'mode-line (if limited-colors-p "black" ogg/mode-line-background))
+               (set-face-background 'mode-line-inactive (if limited-colors-p "black" ogg/mode-line-inactive-background)))))))
+(add-hook 'god-mode-enabled-hook 'ogg/god-mode-update-cursor)
+(add-hook 'god-mode-disabled-hook 'ogg/god-mode-update-cursor)
 
 ; handy keybindings
 (global-set-key (kbd "C-x C-1") 'delete-other-windows)
