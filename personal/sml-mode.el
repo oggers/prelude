@@ -6,5 +6,7 @@
 (require 'smart-mode-line)
 (sml/setup)
 
+(sml/apply-theme 'powerline)
+
 (provide 'sml-mode)
 ;;; sml-mode.el ends here
