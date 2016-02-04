@@ -4,9 +4,63 @@
 ;;; Code:
 (defvar comint-password-prompt-regexp)
 (setq comint-password-prompt-regexp
-      ;; Add [SUDO] in order to hide password prompt for ansible-playbook --ask-become-pass
-      "\\(^ *\\|\\( SMB\\|'s\\|Bad\\|CVS\\|Enter\\(?: \\(?:\\(?:sam\\|th\\)e\\)\\)?\\|Kerberos\\|LDAP\\|New\\|Old\\|Repeat\\|UNIX\\|\\[sudo]\\|[SUDO]\\|enter\\(?: \\(?:\\(?:sam\\|th\\)e\\)\\)?\\|login\\|new\\|old\\) +\\)\\(?:Pass\\(?: phrase\\|phrase\\|word\\)\\|Response\\|pass\\(?: phrase\\|phrase\\|word\\)\\)\\(?:\\(?:, try\\)? *again\\| (empty for no passphrase)\\| (again)\\)?\\(?: for [^:]+\\)?:\\s *\\'"
-      )
+
+      (concat
+       "\\("
+       "^ *"
+       "\\|"
+       "\\( SMB"
+       "\\|"
+       "'s"
+       "\\|"
+       "Bad"
+       "\\|"
+       "CVS"
+       "\\|"
+       "Enter\\(?: \\(?:\\(?:sam\\|th\\)e\\)\\)?"
+       "\\|"
+       "Kerberos"
+       "\\|"
+       "LDAP"
+       "\\|"
+       "New"
+       "\\|"
+       "Old"
+       "\\|"
+       "Repeat"
+       "\\|"
+       "UNIX"
+       "\\|"
+       "\\[sudo]"
+       "\\|"
+       "\\[SUDO]"  ;; '[SUDO]' prompt for ansible-playbook --ask-become-pass
+       "\\|"
+       "SUDO"
+       "\\|"
+       "SSH"  ;; 'SSH password:' prompt for ansible-playbook --ask-pass
+       "\\|"
+       "enter\\(?: \\(?:\\(?:sam\\|th\\)e\\)\\)?"
+       "\\|"
+       "login"
+       "\\|"
+       "new"
+       "\\|"
+       "old\\) +\\)"
+       "\\("
+       "?:Pass\\(?: phrase\\|phrase\\|word\\)"
+       "\\|"
+       "Response"
+       "\\|"
+       "pass\\(?: phrase\\|phrase\\|word\\)\\)"
+       "\\("
+       "?:\\(?:, try\\)? *again"
+       "\\|"
+       " (empty for no passphrase)"
+       "\\|"
+       " (again)"
+       "\\|"
+       "\\[defaults to SSH password]" ;; 'SUDO password[defaults to SSH password]:' prompt for ansible-playbook --ask-become-pass
+       "\\)?\\(?: for [^:]+\\)?:\\s *\\'"  ))
 
 (custom-set-variables
  '(comint-scroll-to-bottom-on-input t)  ; always insert at the bottom
